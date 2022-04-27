@@ -91,188 +91,137 @@ void quick_sort(std::vector<int>& v) {
     // std::cout << "Copy_count: " << copy_count << std::endl;
      //std::cout << "Compare count: " << compare_count << std::endl;
 }
-
-void twm_sort(std::vector<int>& data)
-{
-    std::vector<int> res(data.size());
-    size_t resl = 0;
-    size_t resr = res.size() - 1;
-    size_t podsize = 2;
-    while (true)
-    {
-        size_t resl = 0;
-        size_t resr = res.size() - 1;
-        bool left = true;
-        size_t vecl = 0;
-        size_t vecr = data.size() - 1;
-        while (vecl < vecr)
-        {
-            size_t i = vecl;
-            size_t j = vecr;
-            while (vecl <= vecr && data[vecl] <= data[vecl + 1])
-            {
-                vecl++;
-                podsize++;
-                if (vecl == res.size() - 1) return;
-            }
-            while (vecl <= vecr && data[vecr] <= data[vecr - 1])
-            {
-                vecr--;
-                podsize++;
-            }
-            if (left)
-            {
-                for (size_t p = 0; p < podsize; ++p)
-                {
-                    if (i <= vecl)
-                    {
-                        if (j < vecr)  // права€ уже
-                        {
-                            std::cout << "130str, RES: " << std::endl;
-                            print(res);
-                            res[resl] = data[i];
-                            print(res);
-                            resl++;
-                            i++;
-                            continue;
-                        }
-                        else if (data[i] < data[j]) // права€ не вс€
-                        {
-                            std::cout << "140str, RES: " << std::endl;
-                            print(res);
-                            res[resl] = data[i];
-                            print(res);
-                            resl++;
-                            i++;
-                            continue;
-                        }
-                        else if (i == j)
-                        {
-                            std::cout << "150str, RES: " << std::endl;
-                            print(res);
-                            res[resl] = data[i];
-                            print(res);
-                            break;
-                        }
-                    }
-                    if (j >= vecr)
-                    {
-                        if (i > vecl) // лева€ вс€
-                        {
-                            std::cout << "161str, RES: " << std::endl;
-                            print(res);
-                            res[resl] = data[j];
-                            print(res);
-                            resl++;
-                            j--;
-                            continue;
-                        }
-                        else if (data[j] < data[i]) // лева€ не вс€
-                        {
-                            std::cout << "171str, RES: " << std::endl;
-                            print(res);
-                            res[resl] = data[j];
-                            print(res);
-                            resl++;
-                            j--;
-                            continue;
-                        }
-                        else if (i == j)
-                        {
-                            std::cout << "181str, RES: " << std::endl;
-                            print(res);
-                            res[resl] = data[i];
-                            print(res);
-                            break;
-                        }
-                    }
-                }
-            }
-            else {
-                for (size_t p = 0; p < podsize; ++p)
-                {
-                    if (i <= vecl)
-                    {
-                        if (j < vecr) // права€ вс€
-                        {
-                            std::cout << "198tr, RES: " << std::endl;
-                            print(res);
-                            res[resr] = data[i];
-                            print(res);
-                            resr--;
-                            i++;
-                            continue;
-                        }
-                        else if (data[i] < data[j]) // права€ не вс€
-                        {
-                            std::cout << "208str, RES: " << std::endl;
-                            print(res);
-                            res[resr] = data[i];
-                            print(res);
-                            resr--;
-                            i++;
-                            continue;
-                        }
-                        else if (i == j)
-                        {
-                            std::cout << "218str, RES: " << std::endl;
-                            print(res);
-                            res[resr] = data[i];
-                            print(res);
-                            break;
-                        }
-                    }
-                    if (j >= vecr && data[j] < data[i])
-                    {
-                        if (i > vecl) // лева€ вс€
-                        {
-                            std::cout << "229str, RES: " << std::endl;
-                            print(res);
-                            res[resr] = data[j];
-                            print(res);
-                            resr--;
-                            j--;
-                            continue;
-                        }
-                        else if (data[j] < data[i]) // лева€ не вс€
-                        {
-                            std::cout << "239str, RES: " << std::endl;
-                            print(res);
-                            res[resr] = data[j];
-                            print(res);
-                            resr--;
-                            j--;
-                            continue;
-                        }
-                        else if (i == j)
-                        {
-                            std::cout << "249str, RES:" << std::endl;
-                            print(res);
-                            res[resr] = data[i];
-                            print(res);
-                            break;
-                        }
-                    }
-                }
-            }
-            left = !left;
-            if (j != vecr && vecr < j) {
-                for (int check = j; check >= vecr; --check) {
-                    res[resr] = data[check];
-                    resr--;
-                }
-            }
-            vecl++;
-            vecr--;
-        }
-        std::cout << "268str , Data: " << std::endl;
-        print(data);
-        data = res;
-        print(data);
-        for (size_t k = 0; k < res.size(); k++) res[k] = 0;
-    }
-    return;
-}
+ 
+template <typename T, typename TCompare = std::less<T>>
+void twm_sort(std::vector<T>& vec) {
+	TCompare less;
+	std::vector<T> res(vec.size());
+	while (true) {
+		size_t resl = 0; // Ћева€ граница неотсортированной последовательности в res
+		size_t resr = res.size() - 1; // ѕрава€ граница неотсортированной последовательности в res
+		bool left = true;
+		size_t vecl = 0; // »ндекс левой границы неотсортированной последовательности в vec
+		size_t vecr = vec.size() - 1; // »ндекс правой границы неотсортированной последовательности в vec
+		while (vecl <= vecr) {
+			size_t i = vecl;
+			size_t j = vecr;
+			size_t podsize = 2;
+			compare_count++;
+			while (vecl <= vecr && !less(vec[vecl + 1], vec[vecl])) {
+				compare_count++;
+				vecl++;
+				podsize++;
+				if (vecl == vec.size() - 1) return ;
+			}
+			compare_count++;
+			while (vecl <= vecr && !less(vec[vecr - 1], vec[vecr])) {
+				compare_count++;
+				vecr--; // ”меньшает vecr пока находитс€ увеличивающа€с€ подпоследовательность справа налево от правой границы
+				podsize++;
+			}
+			for (size_t p = 0; p < podsize; ++p) {
+				if (i <= vecl) {
+					if (j < vecr) { // ≈сли вс€ права€ подпоследовательность уже перебрана, то поочередно записываем левую последовательность
+						if (left) {
+							std::cout << "126:" << std::endl;
+							print(res);
+							res[resl] = vec[i];
+							print(res);
+							copy_count++;
+							resl++;
+						}
+						else {
+							std::cout << "134:" << std::endl;
+							print(res);
+							res[resr] = vec[i];
+							copy_count++;
+							resr--;
+						}
+						i++; //ћб не всегда делать инкремент
+						continue;
+					}
+					else if (less(vec[i], vec[j])) { //≈сли права€ подпоследовательность не целиком рассмотрена, то нужно сравнивать
+						compare_count++;
+						if (left) {
+							std::cout << "148:" << std::endl;
+							print(res);
+							res[resl] = vec[i];
+							print(res);
+							copy_count++;
+							resl++;
+						}
+						else {
+							std::cout << "154:" << std::endl;
+							print(res);
+							res[resr] = vec[i];
+							print(res);
+							copy_count++;
+							resr--;
+						}
+						i++; //ћб не всегда делать инкремент
+						continue;
+					}
+					else if (i == j) {
+						std::cout << "165:" << std::endl;
+						print(res);
+						res[resl] = vec[i];
+						print(res);
+						copy_count++;
+						break;
+					}
+				}
+				if (j >= vecr) {
+					if (i > vecl) { // ¬с€ лева€ подпоследовательность рассмотрена
+						if (left) {
+							std::cout << "176:" << std::endl;
+							print(res);
+							res[resl] = vec[j];
+							print(res);
+							copy_count++;
+							resl++;
+						}
+						else {
+							std::cout << "184:" << std::endl;
+							print(res);
+							res[resr] = vec[j];
+							print(res);
+							copy_count++;
+							resr--;
+						}
+						j--; //ћб не всегда делать декремент
+						continue;
+					}
+					else if (less(vec[j], vec[i])) { //≈сли лева€ подпоследовательность не целиком рассмотрена, то нужно сравнивать
+						compare_count++;
+						if (left) {
+							std::cout << "197:" << std::endl;
+							print(res);
+							res[resl] = vec[j];
+							print(res);
+							copy_count++;
+							resl++;
+						}
+						else {
+							std::cout << "205:" << std::endl;
+							print(res);
+							res[resr] = vec[j];
+							print(res);
+							copy_count++;
+							resr--;
+						}
+						j--; //ћб не всегда делать декремент
+						continue;
+					}
+				}
+			}
+			left = !left;
+			vecl++;
+			vecr--;
+		}
+		vec = res;
+		copy_count += res.size();
+	}
+}  
 
 bool check(const std::vector<int>& vec) {
     for (int i = 0; i < vec.size() - 1; i++) {
@@ -285,19 +234,22 @@ int main() {
     std::vector<int> array;
     srand(time(NULL));
     for (int i = 0; i < 10; ++i) {
-        // int temp = 0;
-         //std::cin >> temp;
-        // array.push_back(temp);
+         /*int temp = 0;
+         std::cin >> temp;
+         array.push_back(temp);*/
         array.push_back(rand() % 1000 - 500);
     }
     std::vector<int> tmp(array);
-    /* array.push_back(2);
-     array.push_back(3);
-     array.push_back(1);
-     array.push_back(4);
-     array.push_back(7);
-     array.push_back(5);  */
-
+    /* array.push_back(75);
+     array.push_back(-487);
+     array.push_back(-355);
+     array.push_back(463);
+     array.push_back(81);
+     array.push_back(-497);
+	 array.push_back(-303);
+	 array.push_back(-277);
+	 array.push_back(111);
+	 array.push_back(64);*/
 
     print(array);
     // quick_sort(array);
