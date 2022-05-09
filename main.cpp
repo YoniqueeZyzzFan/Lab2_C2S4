@@ -133,16 +133,16 @@ void twm_sort(std::vector<T>& vec) {
 				if (i <= vecl) {
 					if (j < vecr) { // ≈сли вс€ права€ подпоследовательность уже перебрана, то поочередно записываем левую последовательность
 						if (left) {
-							std::cout << "126:" << std::endl;
-							print(res);
+							//std::cout << "126:" << std::endl;
+							//print(res);
 							res[resl] = vec[i];
-							print(res);
+							//print(res);
 							copy_count++;
 							resl++;
 						}
 						else {
-							std::cout << "134:" << std::endl;
-							print(res);
+							//std::cout << "134:" << std::endl;
+							//print(res);
 							res[resr] = vec[i];
 							copy_count++;
 							resr--;
@@ -153,18 +153,18 @@ void twm_sort(std::vector<T>& vec) {
 					else if (less(vec[i], vec[j])) { //≈сли права€ подпоследовательность не целиком рассмотрена, то нужно сравнивать
 						compare_count++;
 						if (left) {
-							std::cout << "148:" << std::endl;
-							print(res);
+							//std::cout << "148:" << std::endl;
+							//print(res);
 							res[resl] = vec[i];
-							print(res);
+							//print(res);
 							copy_count++;
 							resl++;
 						}
 						else {
-							std::cout << "154:" << std::endl;
-							print(res);
+							//std::cout << "154:" << std::endl;
+							//print(res);
 							res[resr] = vec[i];
-							print(res);
+							//print(res);
 							copy_count++;
 							resr--;
 						}
@@ -172,10 +172,10 @@ void twm_sort(std::vector<T>& vec) {
 						continue;
 					}
 					else if (i == j) {
-						std::cout << "165:" << std::endl;
-						print(res);
+						//std::cout << "165:" << std::endl;
+						//print(res);
 						res[resl] = vec[i];
-						print(res);
+						//print(res);
 						copy_count++;
 						break;
 					}
@@ -183,18 +183,18 @@ void twm_sort(std::vector<T>& vec) {
 				if (j >= vecr) {
 					if (i > vecl) { // ¬с€ лева€ подпоследовательность рассмотрена
 						if (left) {
-							std::cout << "176:" << std::endl;
-							print(res);
+							//std::cout << "176:" << std::endl;
+							//print(res);
 							res[resl] = vec[j];
-							print(res);
+							//print(res);
 							copy_count++;
 							resl++;
 						}
 						else {
-							std::cout << "184:" << std::endl;
-							print(res);
+							//std::cout << "184:" << std::endl;
+							//print(res);
 							res[resr] = vec[j];
-							print(res);
+							//print(res);
 							copy_count++;
 							resr--;
 						}
@@ -204,18 +204,18 @@ void twm_sort(std::vector<T>& vec) {
 					else if (less(vec[j], vec[i])) { //≈сли лева€ подпоследовательность не целиком рассмотрена, то нужно сравнивать
 						compare_count++;
 						if (left) {
-							std::cout << "197:" << std::endl;
-							print(res);
+							//std::cout << "197:" << std::endl;
+							//print(res);
 							res[resl] = vec[j];
-							print(res);
+							//print(res);
 							copy_count++;
 							resl++;
 						}
 						else {
-							std::cout << "205:" << std::endl;
-							print(res);
+							//std::cout << "205:" << std::endl;
+							//print(res);
 							res[resr] = vec[j];
-							print(res);
+							//print(res);
 							copy_count++;
 							resr--;
 						}
@@ -229,9 +229,9 @@ void twm_sort(std::vector<T>& vec) {
 			vecr--;
 		}
 		vec = res;
-		std::cout << std::endl << "222 vec:" << std::endl;
+		//std::cout << std::endl << "222 vec:" << std::endl;
 		copy_count += res.size();
-		print(res);
+		//print(res);
 		std::vector<T> res2(vec.size());
 		res = res2;
 	}
@@ -252,13 +252,13 @@ int main() {
     std::vector<int> array;
 	std::set <int> checker;
     srand(time(NULL));
-    for (int i = 0; i < 10; ++i) {
-        /* int temp = 0;
-         std::cin >> temp;
-         array.push_back(temp);*/
-        array.push_back(rand() % 1000 - 500);
-		checker.insert(array[i]);
-    }
+ //   for (int i = 0; i < 10; ++i) {
+ //       /* int temp = 0;
+ //        std::cin >> temp;
+ //        array.push_back(temp);*/
+ //       array.push_back(rand() % 1000 - 500);
+ //	checker.insert(array[i]);
+ //   }
     std::vector<int> tmp(array);
     /* array.push_back(32);
      array.push_back(-32);
@@ -271,14 +271,14 @@ int main() {
 	 array.push_back(1);
 	 array.push_back(4);*/
 
-    print(array);
-    // quick_sort(array);
-    twm_sort(array);
-    std::cout << "___________________________________-" << std::endl;
-    print(tmp);
-    print(array);
-    if (!check(array,checker)) std::cout << "bad_hand" << std::endl;
-	std::cout << "_____" << std::endl << "Copy_c = " << copy_count << std::endl << "Comp_c = " << compare_count;
+ //   print(array);
+ //   // quick_sort(array);
+ //   twm_sort(array);
+ //   std::cout << "___________________________________-" << std::endl;
+ //   print(tmp);
+ //   print(array);
+ //   if (!check(array,checker)) std::cout << "bad_hand" << std::endl;
+	//std::cout << "_____" << std::endl << "Copy_c = " << copy_count << std::endl << "Comp_c = " << compare_count;
     //bubble_sort(array);
     //insertion_sort(array);
     //selection_sort(array);
