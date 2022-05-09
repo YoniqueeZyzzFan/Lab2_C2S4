@@ -1,8 +1,10 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
+#include <set>
 
-void print(const std::vector<int>& v) {
+template <typename T>
+void print(const std::vector<T>& v) {
     for (int i = 0; i < v.size(); i++) {
         std::cout << v[i] << "  ";
     }
@@ -108,6 +110,10 @@ void twm_sort(std::vector<T>& vec) {
 			size_t podsize = 2;
 			compare_count++;
 			while (vecl <= vecr && !less(vec[vecl + 1], vec[vecl])) {
+				if (vecl == vecr && vec[vecl + 1] == vec[vecl]) {
+					vecl++;
+					break;
+				}
 				compare_count++;
 				vecl++;
 				podsize++;
@@ -115,6 +121,10 @@ void twm_sort(std::vector<T>& vec) {
 			}
 			compare_count++;
 			while (vecl <= vecr && !less(vec[vecr - 1], vec[vecr])) {
+				if (vecl == vecr && vec[vecr - 1] == vec[vecr]) {
+					vecr++;
+					break;
+				}
 				compare_count++;
 				vecr--; // Уменьшает vecr пока находится увеличивающаяся подпоследовательность справа налево от правой границы
 				podsize++;
@@ -219,11 +229,19 @@ void twm_sort(std::vector<T>& vec) {
 			vecr--;
 		}
 		vec = res;
+		std::cout << std::endl << "222 vec:" << std::endl;
 		copy_count += res.size();
+		print(res);
+		std::vector<T> res2(vec.size());
+		res = res2;
 	}
 }  
 
-bool check(const std::vector<int>& vec) {
+template <typename T>
+bool check(const std::vector<T>& vec, const std::set<T>& ch) {
+	for (int i = 0; i < vec.size(); ++i) {
+		if (ch.find(vec[i]) == ch.end()) return false;
+	}
     for (int i = 0; i < vec.size() - 1; i++) {
         if (vec[i + 1] < vec[i]) return false;
     }
@@ -232,24 +250,26 @@ bool check(const std::vector<int>& vec) {
 
 int main() {
     std::vector<int> array;
+	std::set <int> checker;
     srand(time(NULL));
     for (int i = 0; i < 10; ++i) {
-         /*int temp = 0;
+        /* int temp = 0;
          std::cin >> temp;
          array.push_back(temp);*/
         array.push_back(rand() % 1000 - 500);
+		checker.insert(array[i]);
     }
     std::vector<int> tmp(array);
-    /* array.push_back(75);
-     array.push_back(-487);
-     array.push_back(-355);
-     array.push_back(463);
-     array.push_back(81);
-     array.push_back(-497);
-	 array.push_back(-303);
-	 array.push_back(-277);
-	 array.push_back(111);
-	 array.push_back(64);*/
+    /* array.push_back(32);
+     array.push_back(-32);
+     array.push_back(-314);
+     array.push_back(-5432);
+     array.push_back(5);
+     array.push_back(5);
+	 array.push_back(-324);
+	 array.push_back(2);
+	 array.push_back(1);
+	 array.push_back(4);*/
 
     print(array);
     // quick_sort(array);
@@ -257,8 +277,8 @@ int main() {
     std::cout << "___________________________________-" << std::endl;
     print(tmp);
     print(array);
-    if (check(array)) std::cout << "ok_hand" << std::endl;
-    else std::cout << "bad_hand" << std::endl;
+    if (!check(array,checker)) std::cout << "bad_hand" << std::endl;
+	std::cout << "_____" << std::endl << "Copy_c = " << copy_count << std::endl << "Comp_c = " << compare_count;
     //bubble_sort(array);
     //insertion_sort(array);
     //selection_sort(array);
