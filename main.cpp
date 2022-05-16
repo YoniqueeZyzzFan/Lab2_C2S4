@@ -5,15 +5,15 @@
 
 template <typename T>
 void print(const std::vector<T>& v) {
-    for (int i = 0; i < v.size(); i++) {
+    for (size_t i = 0; i < v.size(); i++) {
         std::cout << v[i] << "  ";
     }
     std::cout << std::endl;
 }
 
 void bubble_sort(std::vector<int>& v) {
-    for (int i = 0; i < v.size() - 1; ++i) {
-        for (int j = 0; j < v.size() - 1 - i; ++j) {
+    for (size_t i = 0; i < v.size() - 1; ++i) {
+        for (size_t j = 0; j < v.size() - 1 - i; ++j) {
             if (v[j] > v[j + 1]) {
                 int tmp = v[j];
                 v[j] = v[j + 1];
@@ -46,9 +46,9 @@ void insertion_sort(std::vector<T>& v) {
 
 void selection_sort(std::vector<int>& v) {
     int min_ind;
-    for (int i = 0; i < v.size() - 1; ++i) {
+    for (size_t i = 0; i < v.size() - 1; ++i) {
         min_ind = i;
-        for (int j = i; j < v.size(); ++j) {
+        for (size_t j = i; j < v.size(); ++j) {
             if (v[min_ind] > v[j]) min_ind = j;
         }
         std::swap(v[min_ind], v[i]);
@@ -251,7 +251,7 @@ bool check(const std::vector<T>& vec, const std::unordered_map<int,int>& ch) {
 		temp[vec[i]] += 1;
 	}
 	if (temp != ch) return false;
-    for (int i = 0; i < vec.size() - 1; i++) {
+    for (size_t i = 0; i < vec.size() - 1; i++) {
         if (vec[i + 1] < vec[i]) return false;
     }
     return true;
@@ -261,13 +261,19 @@ int main() {
     std::vector<int> array;
 	std::unordered_map<int, int> ch;
     srand(time(NULL));
-	for (int i = 0; i < 18000; ++i) {
-        /* int temp = 0;
-         std::cin >> temp;
-         array.push_back(temp);*/
-        array.push_back(rand() % 1000);
-		ch[array[i]] += 1;
-    }
+	for (int i = 0; i < 100; ++i) {
+		for (int k = 0; k < 18000; ++k) {
+			array.push_back(rand() % 10000);
+			ch[array[k]] += 1;
+		}
+		twm_sort(array);
+		if (!check(array, ch)) {
+			std::cout << "bad_hand" << std::endl;
+			print(array);
+		}
+		array.clear();
+		ch.clear();
+	}
      /*array.push_back(139);
      array.push_back(565);
      array.push_back(490);
@@ -289,13 +295,12 @@ int main() {
 
   //  print(array);
  //   quick_sort(array);
-    twm_sort(array);
+    //twm_sort(array);
 	//print(array);
  //   std::cout << "___________________________________-" << std::endl;
  //   print(tmp);
  //   print(array);
-	std::cout << "";
-    if (!check(array,ch)) std::cout << "bad_hand" << std::endl;
+   // if (!check(array,ch)) std::cout << "bad_hand" << std::endl;
 	//std::cout << "_____" << std::endl << "Copy_c = " << copy_count << std::endl << "Comp_c = " << compare_count;
     //bubble_sort(array);
     //insertion_sort(array);
