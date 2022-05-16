@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <time.h>
-#include <set>
+#include <unordered_map>
 
 template <typename T>
 void print(const std::vector<T>& v) {
@@ -150,6 +150,13 @@ void twm_sort(std::vector<T>& vec) {
 						i++; //ћб не всегда делать инкремент
 						continue;
 					}
+					else if (vec[i] == vec[j] && i!=j) {
+						res[resl] = vec[i];
+						copy_count++;
+						resl++;
+						i++;
+						continue;
+					}
 					else if (less(vec[i], vec[j])) { //≈сли права€ подпоследовательность не целиком рассмотрена, то нужно сравнивать
 						compare_count++;
 						if (left) {
@@ -238,10 +245,12 @@ void twm_sort(std::vector<T>& vec) {
 }  
 
 template <typename T>
-bool check(const std::vector<T>& vec, const std::set<T>& ch) {
-	for (int i = 0; i < vec.size(); ++i) {
-		if (ch.find(vec[i]) == ch.end()) return false;
+bool check(const std::vector<T>& vec, const std::unordered_map<int,int>& ch) {
+	std::unordered_map<int, int> temp;
+	for (size_t i = 0; i < vec.size(); ++i) {
+		temp[vec[i]] += 1;
 	}
+	if (temp != ch) return false;
     for (int i = 0; i < vec.size() - 1; i++) {
         if (vec[i + 1] < vec[i]) return false;
     }
@@ -250,34 +259,43 @@ bool check(const std::vector<T>& vec, const std::set<T>& ch) {
 
 int main() {
     std::vector<int> array;
-	std::set <int> checker;
+	std::unordered_map<int, int> ch;
     srand(time(NULL));
- //   for (int i = 0; i < 10; ++i) {
- //       /* int temp = 0;
- //        std::cin >> temp;
- //        array.push_back(temp);*/
- //       array.push_back(rand() % 1000 - 500);
- //	checker.insert(array[i]);
- //   }
-    std::vector<int> tmp(array);
-    /* array.push_back(32);
-     array.push_back(-32);
-     array.push_back(-314);
-     array.push_back(-5432);
-     array.push_back(5);
-     array.push_back(5);
-	 array.push_back(-324);
-	 array.push_back(2);
-	 array.push_back(1);
-	 array.push_back(4);*/
+	for (int i = 0; i < 18000; ++i) {
+        /* int temp = 0;
+         std::cin >> temp;
+         array.push_back(temp);*/
+        array.push_back(rand() % 1000);
+		ch[array[i]] += 1;
+    }
+     /*array.push_back(139);
+     array.push_back(565);
+     array.push_back(490);
+     array.push_back(874);
+     array.push_back(651);
+     array.push_back(4);
+	 array.push_back(390);
+	 array.push_back(643);
+	 array.push_back(269);
+	 array.push_back(601);
+	 array.push_back(565);
+	 array.push_back(575);
+	 array.push_back(660);
+	 array.push_back(607);
+	 array.push_back(663);
+	 array.push_back(833);
+	 array.push_back(451);
+	 array.push_back(236);*/
 
- //   print(array);
- //   // quick_sort(array);
- //   twm_sort(array);
+  //  print(array);
+ //   quick_sort(array);
+    twm_sort(array);
+	//print(array);
  //   std::cout << "___________________________________-" << std::endl;
  //   print(tmp);
  //   print(array);
- //   if (!check(array,checker)) std::cout << "bad_hand" << std::endl;
+	std::cout << "";
+    if (!check(array,ch)) std::cout << "bad_hand" << std::endl;
 	//std::cout << "_____" << std::endl << "Copy_c = " << copy_count << std::endl << "Comp_c = " << compare_count;
     //bubble_sort(array);
     //insertion_sort(array);
