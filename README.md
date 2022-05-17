@@ -2,3 +2,4 @@
 - Insertion sort
 - quick_sort
 - Natural two-way merge sort
+- Книга1 - avg copy/compare count and their dependency patterns
